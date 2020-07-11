@@ -125,11 +125,14 @@ app.post('/random-test', (req, res) => {
     let arr = [];
     Object.keys(query.level).forEach((key) => {
       let listQuestion = data.data.filter(e => e.level == key);
+      listQuestion = Util.shuffle(listQuestion);
       let randomNumber = query.level[key];
-      let space = Math.floor(listQuestion.length / randomNumber);
-      for (let i = 0; i + space < listQuestion.length; i += space) {
-        let ran = Math.floor(Math.random() * space) + i;
-        arr.push(listQuestion[ran]);
+      for (let index = 0; index < listQuestion.length; index++) {
+        if(randomNumber === 0){
+          break;
+        }
+        arr.push(listQuestion[index]);
+        randomNumber--;
       }
     });
     res.send(arr);
